@@ -34,7 +34,9 @@ func (c NCloudClient) doSend(method, url, data, signed, t string,
 	req.Header.SetMethod(method)
 	c.setHeader(req, c.Credential.AccessKey, signed, t)
 	req.SetRequestURI(url)
-	req.SetBodyString(data)
+	if data != "" {
+		req.SetBodyString(data)
+	}
 	rsp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(rsp)
 	if err := fasthttp.DoTimeout(req, rsp, timeout); err != nil {
