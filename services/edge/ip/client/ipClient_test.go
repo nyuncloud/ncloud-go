@@ -24,6 +24,18 @@ func TestIPClient_QueryIPGet(t *testing.T) {
 	fmt.Println("dataResponse:", dataResponse)
 }
 
+func BenchmarkNewIPClient(b *testing.B) {
+	credentials := core.NewCredentials(accessKey, secretKey)
+	pluginClient := NewIPClient(credentials)
+	dataRequest := apis.NewQueryIPGetRequest()
+	//pluginClient.DisableLogger() //关闭日志输出
+	dataResponse, err := pluginClient.QueryIPGet(dataRequest)
+	if err != nil {
+		fmt.Println("err:", err)
+	}
+	fmt.Println("dataResponse:", dataResponse)
+}
+
 func TestIPClient_GetWhiteList(t *testing.T) {
 	credentials := core.NewCredentials(accessKey, secretKey)
 	pluginClient := NewIPClient(credentials)

@@ -21,9 +21,9 @@ type IPGetResponse struct {
 }
 
 type IPGetResult struct {
-	Http    string `json:"http"`
-	Socks5  string `json:"socks5"`
-	TrackID string `json:"track_id"`
+	HttpList   []string `json:"http_list"`
+	Socks5List []string `json:"socks5_list"`
+	TrackID    string   `json:"track_id"`
 }
 
 type WhiteListResponse struct {

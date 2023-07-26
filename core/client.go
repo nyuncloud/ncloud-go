@@ -42,7 +42,9 @@ func (c NCloudClient) doSend(method, url, data, signed, t string,
 	if err := fasthttp.DoTimeout(req, rsp, timeout); err != nil {
 		return nil, err
 	}
-	c.Logger.Log(LogInfo, "req data:", data)
+	if data != "" {
+		c.Logger.Log(LogInfo, "req data:", data)
+	}
 	c.Logger.Log(LogInfo, "trace_id:", string(rsp.Header.Peek("X-UUID")))
 	if rsp.Header.StatusCode() > fasthttp.StatusBadRequest {
 		c.Logger.Log(LogError, "status msg:", string(rsp.Header.StatusMessage()))
