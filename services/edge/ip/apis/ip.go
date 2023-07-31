@@ -21,9 +21,14 @@ type IPGetResponse struct {
 }
 
 type IPGetResult struct {
-	HttpList   []string `json:"http_list"`
-	Socks5List []string `json:"socks5_list"`
-	TrackID    string   `json:"track_id"`
+	List    []IPObject `json:"list"`
+	TrackID string     `json:"track_id"`
+}
+
+type IPObject struct {
+	IP     string `json:"ip"`
+	Port   int64  `json:"port"`
+	S5Port int64  `json:"s5port"`
 }
 
 type WhiteListResponse struct {
