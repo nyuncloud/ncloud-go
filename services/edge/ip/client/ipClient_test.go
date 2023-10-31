@@ -40,7 +40,7 @@ func TestIPClient_GetWhiteList(t *testing.T) {
 	credentials := core.NewCredentials(accessKey, secretKey)
 	pluginClient := NewIPClient(credentials)
 	dataRequest := apis.NewQueryWhiteListRequest()
-	//pluginClient.DisableLogger() //关闭日志输出
+	pluginClient.DisableLogger() //关闭日志输出
 	dataResponse, err := pluginClient.GetWhiteList(dataRequest)
 	if err != nil {
 		fmt.Println("err:", err)
@@ -66,6 +66,30 @@ func TestIPClient_DelWhiteList(t *testing.T) {
 	dataRequest := apis.NewWhiteDelRequest("223.74.107.179")
 	//pluginClient.DisableLogger() //关闭日志输出
 	dataResponse, err := pluginClient.DelWhiteList(dataRequest)
+	if err != nil {
+		fmt.Println("err:", err)
+	}
+	fmt.Println("dataResponse:", dataResponse)
+}
+
+func TestIPClient_CountGet(t *testing.T) {
+	credentials := core.NewCredentials(accessKey, secretKey)
+	pluginClient := NewIPClient(credentials)
+	dataRequest := apis.NewCountGetRequest()
+	pluginClient.DisableLogger() //关闭日志输出
+	dataResponse, err := pluginClient.CountGet(dataRequest)
+	if err != nil {
+		fmt.Println("err:", err)
+	}
+	fmt.Println("dataResponse:", dataResponse)
+}
+
+func TestIPClient_CountPost(t *testing.T) {
+	credentials := core.NewCredentials(accessKey, secretKey)
+	pluginClient := NewIPClient(credentials)
+	dataRequest := apis.NewCountPostRequest("20231029", "20231031")
+	pluginClient.DisableLogger() //关闭日志输出
+	dataResponse, err := pluginClient.CountPost(dataRequest)
 	if err != nil {
 		fmt.Println("err:", err)
 	}

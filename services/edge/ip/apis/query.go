@@ -60,3 +60,34 @@ func NewWhiteDelRequest(ip string) *WhiteDelRequest {
 		IPInfo: IPInfo{IP: ip},
 	}
 }
+
+type CountGetRequest struct {
+	core.NCloudRequest
+}
+
+func NewCountGetRequest() *CountGetRequest {
+	return &CountGetRequest{
+		NCloudRequest: core.NCloudRequest{
+			Path:   "/eip/count",
+			Method: consts.MethodGet,
+		},
+	}
+}
+
+type CountPostRequest struct {
+	core.NCloudRequest
+	CountPostInfo
+}
+
+func NewCountPostRequest(startDate, endDate string) *CountPostRequest {
+	return &CountPostRequest{
+		NCloudRequest: core.NCloudRequest{
+			Path:   "/eip/count",
+			Method: consts.MethodPost,
+		},
+		CountPostInfo: CountPostInfo{
+			StartDate: startDate,
+			EndDate:   endDate,
+		},
+	}
+}

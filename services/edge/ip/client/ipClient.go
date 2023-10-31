@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+	"fmt"
 	"github.com/bytedance/sonic"
 	"github.com/nyuncloud/ncloud-go/core"
 	"github.com/nyuncloud/ncloud-go/core/net/consts"
@@ -17,8 +18,8 @@ func NewIPClient(credential *core.Credential) *IPClient {
 		return nil
 	}
 	config := core.NewConfig()
-	config.SetScheme(consts.SchemeHttp)
-	config.SetEndpoint("114.67.174.156:60001")
+	config.SetScheme(consts.SchemeHttps)
+	config.SetEndpoint("eip.xyuncloud.com")
 	return &IPClient{
 		core.NCloudClient{
 			Credential:  *credential,
@@ -112,6 +113,51 @@ func (c *IPClient) DelWhiteList(request *apis.WhiteDelRequest) (*apis.Response, 
 		return nil, nil
 	}
 	jsonResp := &apis.Response{}
+	err = sonic.Unmarshal(resp, jsonResp)
+	if err != nil {
+		c.Logger.Log(core.LogError, "Unmarshal json failed, resp: %s", string(resp))
+		return nil, err
+	}
+	return jsonResp, err
+}
+
+func (c *IPClient) CountGet(request *apis.CountGetRequest) (*apis.CountGetResponse, error) {
+	if request == nil {
+		return nil, errors.New("Request object is nil. ")
+	}
+	resp, err := c.Send(request.Method, request.Path, "")
+	if err != nil {
+		return nil, err
+	}
+	if len(resp) == 0 {
+		return nil, nil
+	}
+	jsonResp := &apis.CountGetResponse{}
+	err = sonic.Unmarshal(resp, jsonResp)
+	if err != nil {
+		c.Logger.Log(core.LogError, "Unmarshal json failed, resp: %s", string(resp))
+		return nil, err
+	}
+	return jsonResp, err
+}
+func (c *IPClient) CountPost(request *apis.CountPostRequest) (*apis.CountPostResponse, error) {
+	if request == nil {
+		return nil, errors.New("Request object is nil. ")
+	}
+	jsonDataReq, err := sonic.Marshal(request.CountPostInfo)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.Send(request.Method, request.Path, string(jsonDataReq))
+	if err != nil {
+		return nil, err
+	}
+	if len(resp) == 0 {
+		return nil, nil
+	}
+	fmt.Println("resp body:", string(resp))
+	c.Logger.Log(core.LogInfo, "resp body:%s", string(resp))
+	jsonResp := &apis.CountPostResponse{}
 	err = sonic.Unmarshal(resp, jsonResp)
 	if err != nil {
 		c.Logger.Log(core.LogError, "Unmarshal json failed, resp: %s", string(resp))

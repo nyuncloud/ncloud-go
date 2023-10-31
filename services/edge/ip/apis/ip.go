@@ -38,6 +38,37 @@ type WhiteListResponse struct {
 }
 
 type WhiteListResult struct {
-	List    []string
+	List    []string `json:"list"`
+	TrackID string   `json:"track_id"`
+}
+
+type CountPostInfo struct {
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+}
+
+type CountPostResult struct {
+	TrackID string        `json:"track_id"`
+	List    []CountObject `json:"list"`
+}
+type CountPostResponse struct {
+	Code int             `json:"code"`
+	Msg  string          `json:"msg"`
+	Data CountPostResult `json:"data"`
+}
+
+type CountObject struct {
+	Date  string `json:"date"`
+	Count int64  `json:"count"`
+}
+
+type CountGetResult struct {
 	TrackID string `json:"track_id"`
+	Count   int64  `json:"count"`
+}
+
+type CountGetResponse struct {
+	Code int            `json:"code"`
+	Msg  string         `json:"msg"`
+	Data CountGetResult `json:"data"`
 }
